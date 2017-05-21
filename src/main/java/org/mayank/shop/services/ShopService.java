@@ -5,6 +5,7 @@ package org.mayank.shop.services;
 
 import java.math.BigDecimal;
 
+import org.mayank.shop.exceptions.RepositoryException;
 import org.mayank.shop.exceptions.ShopException;
 import org.mayank.shop.json.request.ShopRequest;
 import org.mayank.shop.model.Shop;
@@ -32,7 +33,8 @@ public interface ShopService {
 	 * @param Latitude the latitude of customer
 	 * @return the nearest shop to customer
 	 * @throws ShopException 
+	 * @throws RepositoryException 
 	 */
-	public Shop getNearestShop(BigDecimal Longitude,BigDecimal Latitude) throws ShopException;
+	public Shop getNearestShop(BigDecimal Longitude,BigDecimal Latitude) throws ShopException, RepositoryException;
 	
 }

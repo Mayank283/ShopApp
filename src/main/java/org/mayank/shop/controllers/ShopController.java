@@ -6,6 +6,7 @@ package org.mayank.shop.controllers;
 import java.math.BigDecimal;
 
 import org.mayank.shop.exceptions.ErrorResponse;
+import org.mayank.shop.exceptions.RepositoryException;
 import org.mayank.shop.exceptions.ShopException;
 import org.mayank.shop.json.request.ShopRequest;
 import org.mayank.shop.model.Shop;
@@ -66,7 +67,7 @@ public class ShopController {
 	 * @throws AddressException */
 	@RequestMapping(value = "/nearest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Shop> getNearestShop(@RequestParam("customerLongitude") BigDecimal customerLongitude,
-			@RequestParam("customerLatitude") BigDecimal customerLatitude) throws ShopException{
+			@RequestParam("customerLatitude") BigDecimal customerLatitude) throws ShopException, RepositoryException{
 		
 		final String methodName = "getNearestShop()";
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -92,6 +93,15 @@ public class ShopController {
 		error.setErrorCode("SA-001");
 		error.setMessage(ex.getMessage());
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@ExceptionHandler(RepositoryException.class)
+	public ResponseEntity<ErrorResponse> RepositoryExceptionHandler(Exception ex) {
+		ErrorResponse error = new ErrorResponse();
+		error.setErrorCode("SA-002");
+		error.setMessage(ex.getMessage());
+		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}	
 	
 }
