@@ -45,6 +45,7 @@ public class ShopServiceTest {
 		shopAddress.setNumber("Shop 21");
 		shopAddress.setPostCode(281001L);
 		shopRequestValid = new ShopRequest("Bikaji", shopAddress);
+		
 	}
 
 	/**
@@ -58,14 +59,14 @@ public class ShopServiceTest {
 		shopService.addShop(shopRequestInvalid);
 	}
 
-	
-	
 	/**
-	 * Correct shopAddress 
+	 * Correct shopAddress
+	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void givenCorrectShopRequest() throws Exception {
+		
 		shopService.addShop(shopRequestValid);
 	}
 }

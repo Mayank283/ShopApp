@@ -68,7 +68,6 @@ public class ShopcontrollerTest {
 		shopRequest = new ShopRequest("Bihari", shopAddress);
 		ObjectMapper mapperObj = new ObjectMapper();
 		jsonStr = mapperObj.writeValueAsString(shopRequest);
-		System.out.println(jsonStr);
 	}
 
 	/**

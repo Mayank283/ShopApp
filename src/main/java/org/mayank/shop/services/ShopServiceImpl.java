@@ -9,12 +9,14 @@ import java.math.BigDecimal;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.mayank.shop.dao.ShopDao;
 import org.mayank.shop.exceptions.ShopException;
 import org.mayank.shop.json.request.ShopRequest;
 import org.mayank.shop.model.Shop;
 import org.mayank.shop.model.ShopAddress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.code.geocoder.AdvancedGeoCoder;
@@ -33,7 +35,12 @@ import com.google.code.geocoder.model.LatLng;
 @Service
 public class ShopServiceImpl implements ShopService {
 
+	@Autowired
+	private ShopDao shopDao;
+	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	
 
 	@Override
 	public void addShop(ShopRequest request) throws ShopException {
@@ -60,7 +67,7 @@ public class ShopServiceImpl implements ShopService {
 					shop.setShopName(request.getShopName());
 					shop.setShopLongitude(location.getLng());
 					shop.setShopLatitude(location.getLat());
-					// shopdao.addShop(shop);
+					shopDao.addShop(shop);
 				}
 			} else {
 				throw new ShopException(geoResponse.getStatus().toString());
@@ -70,12 +77,26 @@ public class ShopServiceImpl implements ShopService {
 		}
 	}
 
+	
+	
+	
 	@Override
 	public Shop getNearestShop(BigDecimal Longitude, BigDecimal Latitude) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	
+	
+	
+	
+	/**
+	 * Method to use Geocoder API and return the latitude and longitude of shop based on shop location
+	 * @param shopName the name of shop
+	 * @param shopAddress the Valid address of shop
+	 * @return GeocoderResponse object with details
+	 * @throws ShopException
+	 */
 	private GeocodeResponse getLatitudeAndLongitude(String shopName, ShopAddress shopAddress) throws ShopException {
 		String address = "";
 

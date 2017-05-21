@@ -3,9 +3,11 @@
  */
 package org.mayank.shop.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mayank.shop.model.Shop;
+import org.springframework.stereotype.Repository;
 
 /**
  * Implementation of ShopDao
@@ -13,18 +15,19 @@ import org.mayank.shop.model.Shop;
  * @author Mayank
  *
  */
+
+@Repository
 public class ShopDaoImpl implements ShopDao{
 
+	List<Shop> shopList = new ArrayList<Shop>();
+	
 	@Override
 	public void addShop(Shop shop) {
-		// TODO Auto-generated method stub
-		
+		shopList.add(shop);
 	}
-
+	
 	@Override
 	public List<Shop> getShops() {
-		// TODO Auto-generated method stub
-		return null;
+		return shopList;
 	}
-
 }
