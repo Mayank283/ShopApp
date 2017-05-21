@@ -31,7 +31,8 @@ public interface ShopService {
 	 * @param Longitude the longitude of customer
 	 * @param Latitude the latitude of customer
 	 * @return the nearest shop to customer
+	 * @throws ShopException 
 	 */
-	public Shop getNearestShop(BigDecimal Longitude,BigDecimal Latitude);
+	public Shop getNearestShop(BigDecimal Longitude,BigDecimal Latitude) throws ShopException;
 	
 }

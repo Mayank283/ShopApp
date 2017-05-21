@@ -81,7 +81,7 @@ public class ShopServiceImpl implements ShopService {
 	
 	
 	@Override
-	public Shop getNearestShop(BigDecimal Longitude, BigDecimal Latitude) {
+	public Shop getNearestShop(BigDecimal Longitude, BigDecimal Latitude) throws ShopException {
 		// TODO Auto-generated method stub
 		return null;
 	}

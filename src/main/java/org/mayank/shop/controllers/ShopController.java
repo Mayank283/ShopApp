@@ -3,9 +3,12 @@
  */
 package org.mayank.shop.controllers;
 
+import java.math.BigDecimal;
+
 import org.mayank.shop.exceptions.ErrorResponse;
 import org.mayank.shop.exceptions.ShopException;
 import org.mayank.shop.json.request.ShopRequest;
+import org.mayank.shop.model.Shop;
 import org.mayank.shop.services.ShopService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -49,7 +53,33 @@ public class ShopController {
         
         return new ResponseEntity<String>("Success",HttpStatus.OK);
 	}
-
+	
+	
+	
+	
+	
+	/**URI to find nearest shop from list of available shop to customer
+	 * @param customerLatitude - Latitude of customer location.Cannot be null
+	 * @param customerLongitude - Longitude of customer location.Cannot be null 
+	 * @throws ShopException 
+	 * @throws RepositoryException 
+	 * @throws AddressException */
+	@RequestMapping(value = "/nearest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Shop> getNearestShop(@RequestParam("customerLongitude") BigDecimal customerLongitude,
+			@RequestParam("customerLatitude") BigDecimal customerLatitude) throws ShopException{
+		
+		final String methodName = "getNearestShop()";
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+        logger.info("Sending the Customer to method: " + methodName);
+        
+        Shop shop = shopService.getNearestShop(customerLongitude, customerLatitude);
+        
+		return new ResponseEntity<Shop>(shop,HttpStatus.OK);
+	}
+	
+	
+	
+	
 	
 	/**
 	 * Custom exception handler for invalid requests when user has not mentioned location.
