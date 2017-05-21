@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 import org.mayank.shop.json.request.ShopRequest;
 import org.mayank.shop.model.ShopAddress;
 import org.mayank.shop.services.ShopService;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,6 +41,9 @@ public class ShopcontrollerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
+	@MockBean
+	ShopService shopService;
 
 	private ShopRequest shopRequest;
 
@@ -53,6 +57,10 @@ public class ShopcontrollerTest {
 	private MediaType contentType2 = new MediaType(MediaType.TEXT_PLAIN.getType(), MediaType.TEXT_PLAIN.getSubtype(),
 			Charset.forName("utf8"));
 
+	/**
+	 * Set up for unit testing of controller
+	 * @throws Exception
+	 */
 	@Before
 	public void setup() throws Exception {
 		shopAddress.setNumber("232");
@@ -63,9 +71,17 @@ public class ShopcontrollerTest {
 		System.out.println(jsonStr);
 	}
 
+	/**
+	 * Correct Shop request should return status as ok.
+	 * Mocking shopService to do nothing on sending request to URI/shop/add
+	 * @throws Exception
+	 */
 	@Test
 	public void givenCorrectShopRequestResponseOK() throws Exception {
 
+		//given(this.shopService.addShop(shopRequest))
+		Mockito.doNothing().when(shopService).addShop(shopRequest);
+		
 		this.mockMvc.perform(post("/shop/add").content(jsonStr).contentType(contentType)).andDo(print())
 				.andExpect(status().isOk()).andExpect(content().contentType(contentType2));
 	}

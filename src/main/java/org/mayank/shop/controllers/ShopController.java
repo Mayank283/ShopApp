@@ -36,9 +36,10 @@ public class ShopController {
 	/**URI Method for Retail Manager to add shop into his shop repository list
 	 * @param request Shop request payload by Retail Manager.
 	 * @return ResponseEntity<String> Success on adding the shop to repository.
+	 * @throws ShopException 
 	 * */
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> addShop(@RequestBody ShopRequest request){
+	public ResponseEntity<String> addShop(@RequestBody ShopRequest request) throws ShopException{
 		
 		final String methodName = "addShop()";
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -56,7 +57,7 @@ public class ShopController {
 	 * @return Custom response for exception thrown
 	 */
 	@ExceptionHandler(ShopException.class)
-	public ResponseEntity<ErrorResponse> addressExceptionHandler(Exception ex) {
+	public ResponseEntity<ErrorResponse> shopExceptionHandler(Exception ex) {
 		ErrorResponse error = new ErrorResponse();
 		error.setErrorCode("SA-001");
 		error.setMessage(ex.getMessage());
