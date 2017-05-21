@@ -40,8 +40,8 @@ public class ShopController {
 	
 	/**URI Method for Retail Manager to add shop into his shop repository list
 	 * @param request Shop request payload by Retail Manager.
-	 * @return ResponseEntity<String> Success on adding the shop to repository.
-	 * @throws ShopException 
+	 * @return ResponseEntity Success on adding the shop to repository.
+	 * @throws ShopException Exception thrown on wrong location/address of shop/customer
 	 * */
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addShop(@RequestBody ShopRequest request) throws ShopException{
@@ -62,9 +62,10 @@ public class ShopController {
 	/**URI to find nearest shop from list of available shop to customer
 	 * @param customerLatitude - Latitude of customer location.Cannot be null
 	 * @param customerLongitude - Longitude of customer location.Cannot be null 
-	 * @throws ShopException 
-	 * @throws RepositoryException 
-	 * @throws AddressException */
+	 * @return Shop Location near customer
+	 * @throws ShopException Exception thrown on wrong location/address of shop/customer
+	 * @throws RepositoryException Exception thrown when No shops are present in Shop repository
+	 * */
 	@RequestMapping(value = "/nearest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Shop> getNearestShop(@RequestParam("customerLongitude") BigDecimal customerLongitude,
 			@RequestParam("customerLatitude") BigDecimal customerLatitude) throws ShopException, RepositoryException{
@@ -96,8 +97,14 @@ public class ShopController {
 	}
 	
 	
+	
+	/**
+	 * Custom exception handler when no shops are present in repository
+	 * @param ex Exception trace
+	 * @return Custom response for exception thrown
+	 */
 	@ExceptionHandler(RepositoryException.class)
-	public ResponseEntity<ErrorResponse> RepositoryExceptionHandler(Exception ex) {
+	public ResponseEntity<ErrorResponse> repositoryExceptionHandler(Exception ex) {
 		ErrorResponse error = new ErrorResponse();
 		error.setErrorCode("SA-002");
 		error.setMessage(ex.getMessage());

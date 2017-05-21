@@ -175,6 +175,7 @@ public class ShopServiceImpl implements ShopService {
 	
 	
 	/**
+	 * Method to return the calculated distance in KM betweem shop and customer location
 	 * @param lat1 Latitude of the customer
 	 * @param lon1 Longitude of the customer
 	 * @param lat2 Latitude of the shop

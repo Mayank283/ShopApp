@@ -16,11 +16,13 @@ import org.mayank.shop.model.Shop;
 public interface ShopDao {
 
 	/**
+	 * Method to add Shop into Repository
 	 * @param shop Shop to be added into repository
 	 */
 	public void addShop(Shop shop);
 
 	/**
+	 * Method to return all the shops in repository
 	 * @return List of shop present in repository
 	 */
 	public List<Shop> getShops();

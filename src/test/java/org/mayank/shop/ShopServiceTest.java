@@ -3,8 +3,11 @@
  */
 package org.mayank.shop;
 
+import static org.junit.Assert.*;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +45,10 @@ public class ShopServiceTest {
 	private ShopRequest shopRequestInvalid;
 
 	private ShopRequest shopRequestValid;
+	
+	private Shop shop = new Shop();
+	
+	private List<Shop> shopList = new ArrayList<Shop>();
 
 	private ShopAddress shopAddress = new ShopAddress();
 
@@ -56,7 +63,11 @@ public class ShopServiceTest {
 		shopAddress.setNumber("Shop 21");
 		shopAddress.setPostCode(281001L);
 		shopRequestValid = new ShopRequest("Bikaji", shopAddress);
-		
+		shop.setShopName("Brijwasi");
+		shop.setShopAddress(shopAddress);
+		shop.setShopLatitude(BigDecimal.valueOf(27.4768644));
+		shop.setShopLongitude(BigDecimal.valueOf(77.6494396));
+		shopList.add(shop);
 	}
 
 	/**
@@ -100,9 +111,20 @@ public class ShopServiceTest {
 	 */
 	@Test(expected = RepositoryException.class)
 	public void givenValidCustomerLocationNoShopsThrowsRepositoryException() throws Exception {
-		
+
+		// Mocking shopDao to test ShopController method
 		Mockito.doReturn(new ArrayList<Shop>()).when(shopDao).getShops();
 		
 		shopService.getNearestShop(BigDecimal.valueOf(72.15463486),BigDecimal.valueOf(12.15463486));	
+	}
+	
+	@Test
+	public void givenValidCustomerLocationShopIsReturned() throws Exception {
+
+		// Mocking shopDao to test ShopController method
+		Mockito.doReturn(shopList).when(shopDao).getShops();
+		
+		Shop minShop = shopService.getNearestShop(BigDecimal.valueOf(72.15463486),BigDecimal.valueOf(12.15463486));	
+		assertEquals("Brijwasi",minShop.getShopName());
 	}
 }

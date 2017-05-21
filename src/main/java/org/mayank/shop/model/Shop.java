@@ -6,9 +6,10 @@ package org.mayank.shop.model;
 import java.math.BigDecimal;
 
 /**
+ * Object to store complete information of shop.
+ * 
  * @author Mayank
  *
- *Object to store complete information of shop.
  */
 public class Shop {
 

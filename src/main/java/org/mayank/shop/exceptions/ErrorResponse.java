@@ -21,7 +21,7 @@ public class ErrorResponse {
 	private String message;
 
 	/**
-	 * @return the errorCode
+	 * @return the errorCode pertaining to exception
 	 */
 	public String getErrorCode() {
 		return errorCode;
@@ -35,7 +35,7 @@ public class ErrorResponse {
 	}
 
 	/**
-	 * @return the message
+	 * @return the message description of Exception
 	 */
 	public String getMessage() {
 		return message;

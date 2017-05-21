@@ -4,7 +4,7 @@
 package org.mayank.shop.exceptions;
 
 /**
- * Custom Exception for ShopApplication
+ * Custom Exception for ShopApplication when no shops could be retrieved from repository
  * 
  * @author Mayank
  *

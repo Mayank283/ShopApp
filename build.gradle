@@ -11,12 +11,19 @@ buildscript {
     }
 }
 
-
-// Apply the java-library plugin to add support for Java Library
+//applying required plugin
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jacoco"
+
+// Configuring the JaCoCo Plugin
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {

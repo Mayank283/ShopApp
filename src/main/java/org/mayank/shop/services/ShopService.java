@@ -22,7 +22,7 @@ public interface ShopService {
 	 /**
 	 * Method to set add the Shop into Repository with calculated Latitude and Longitude 
 	 * @param request the shoprequest from RetailManager
-	 * @throws ShopException 
+	 * @throws ShopException Exception Exception thrown on wrong location/address of shop/customer
 	 */
 	public void addShop(ShopRequest request) throws ShopException;
 	 
@@ -32,8 +32,8 @@ public interface ShopService {
 	 * @param Longitude the longitude of customer
 	 * @param Latitude the latitude of customer
 	 * @return the nearest shop to customer
-	 * @throws ShopException 
-	 * @throws RepositoryException 
+	 * @throws ShopException Exception thrown on wrong location/address of shop/customer
+	 * @throws RepositoryException Exception thrown when No shops are present in Shop repository
 	 */
 	public Shop getNearestShop(BigDecimal Longitude,BigDecimal Latitude) throws ShopException, RepositoryException;
 	

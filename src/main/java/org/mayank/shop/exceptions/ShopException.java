@@ -4,7 +4,7 @@
 package org.mayank.shop.exceptions;
 
 /**
- * Custom Exception for ShopApplication
+ * Custom Exception for ShopApplication when location/address are invalid
  * 
  * @author Mayank
  *
