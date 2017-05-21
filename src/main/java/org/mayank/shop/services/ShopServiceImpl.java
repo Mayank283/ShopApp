@@ -3,8 +3,12 @@
  */
 package org.mayank.shop.services;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.mayank.shop.exceptions.ShopException;
 import org.mayank.shop.json.request.ShopRequest;
 import org.mayank.shop.model.Shop;
@@ -13,7 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.google.code.geocoder.AdvancedGeoCoder;
+import com.google.code.geocoder.Geocoder;
+import com.google.code.geocoder.GeocoderRequestBuilder;
 import com.google.code.geocoder.model.GeocodeResponse;
+import com.google.code.geocoder.model.GeocoderRequest;
 import com.google.code.geocoder.model.LatLng;
 
 /**
@@ -40,9 +48,11 @@ public class ShopServiceImpl implements ShopService {
 			shopAddress = request.getShopAddress();
 
 			GeocodeResponse geoResponse = getLatitudeAndLongitude(shopName, shopAddress);
+			
 			if (geoResponse.getStatus().toString().equalsIgnoreCase("OK")) {
 
 				LatLng location = geoResponse.getResults().get(0).getGeometry().getLocation();
+				
 				if (location != null) {
 					logger.info("Successfully fetched shops latitude and longitude to add shop");
 					Shop shop = new Shop();
@@ -66,9 +76,31 @@ public class ShopServiceImpl implements ShopService {
 		return null;
 	}
 
-	private GeocodeResponse getLatitudeAndLongitude(String shopName, ShopAddress shopAddress) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	private GeocodeResponse getLatitudeAndLongitude(String shopName, ShopAddress shopAddress) throws ShopException {
+		String address = "";
 
+		address = address + shopName + "," + shopAddress.getNumber();
+		if (shopAddress.getPostCode() != null) {
+			address = address + "," + shopAddress.getPostCode().toString();
+		}
+
+		HttpClient httpClient = new HttpClient(new MultiThreadedHttpConnectionManager());
+		httpClient.getParams().setParameter(HttpMethodParams.SO_TIMEOUT, 60 * 1000);
+
+		Geocoder geocoder = new AdvancedGeoCoder(httpClient);
+
+		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(address).setLanguage("en")
+				.getGeocoderRequest();
+
+		GeocodeResponse geocoderResponse;
+		
+		try {
+			geocoderResponse = geocoder.geocode(geocoderRequest);
+			return geocoderResponse;
+			
+		} catch (IOException e) {
+			
+			throw new ShopException("Exception from geocode",e);
+		}
+	}
 }

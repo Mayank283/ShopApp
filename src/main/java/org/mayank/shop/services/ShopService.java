@@ -27,7 +27,7 @@ public interface ShopService {
 	 
 	
 	 /**
-	  * 
+	  * Method to calculate and return the nearest shop to customer 
 	 * @param Longitude the longitude of customer
 	 * @param Latitude the latitude of customer
 	 * @return the nearest shop to customer

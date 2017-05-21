@@ -15,8 +15,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * @author Mayank
  *
@@ -29,32 +27,45 @@ public class ShopServiceTest {
 
 	@Autowired
 	private ShopService shopService;
-	
-	private ShopRequest shopRequest;
+
+	private ShopRequest shopRequestInvalid;
+
+	private ShopRequest shopRequestValid;
 
 	private ShopAddress shopAddress = new ShopAddress();
 
-	private String jsonStr;
-	
 	/**
-	 * Setting up shopRequest without complete shopAddress 
+	 * Setting up shopRequest without complete shopAddress
+	 * 
 	 * @throws Exception
 	 */
 	@Before
 	public void setup() throws Exception {
-		shopRequest = new ShopRequest("Bihari",shopAddress);
-		ObjectMapper mapperObj = new ObjectMapper();
-		jsonStr = mapperObj.writeValueAsString(shopRequest);
-		System.out.println(jsonStr);
+		shopRequestInvalid = new ShopRequest("Bihari", new ShopAddress());
+		shopAddress.setNumber("Shop 21");
+		shopAddress.setPostCode(281001L);
+		shopRequestValid = new ShopRequest("Bikaji", shopAddress);
 	}
 
 	/**
 	 * Incorrect/Incomplete address should return Exception
+	 * 
 	 * @throws Exception
 	 */
 	@Test(expected = ShopException.class)
 	public void givenIncorrectShopRequestThrowShopException() throws Exception {
+
+		shopService.addShop(shopRequestInvalid);
+	}
+
 	
-		shopService.addShop(shopRequest);
+	
+	/**
+	 * Correct shopAddress 
+	 * @throws Exception
+	 */
+	@Test
+	public void givenCorrectShopRequest() throws Exception {
+		shopService.addShop(shopRequestValid);
 	}
 }
