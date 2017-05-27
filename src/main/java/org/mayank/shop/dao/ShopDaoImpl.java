@@ -3,8 +3,8 @@
  */
 package org.mayank.shop.dao;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.mayank.shop.model.Shop;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ShopDaoImpl implements ShopDao{
 
-	List<Shop> shopList = new ArrayList<Shop>();
+	List<Shop> shopList = new CopyOnWriteArrayList<Shop>();
 	
 	@Override
 	public void addShop(Shop shop) {

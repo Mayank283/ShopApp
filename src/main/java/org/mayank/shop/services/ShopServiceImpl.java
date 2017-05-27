@@ -5,6 +5,7 @@ package org.mayank.shop.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -102,7 +103,10 @@ public class ShopServiceImpl implements ShopService {
 			 * minimum distance shop
 			 */
 			if (!shopList.isEmpty()) {
-				for (Shop shop : shopList) {
+			    Iterator<Shop> iterator = shopList.iterator(); 
+			    
+				while(iterator.hasNext()){
+					Shop shop = iterator.next();
 					Double distance = getDistance(customerLatitude, customerLongitude, shop.getShopLatitude(),
 							shop.getShopLongitude());
 					if ( minDistance == null || distance < minDistance) {
