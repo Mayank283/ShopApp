@@ -45,10 +45,11 @@ public class ShopServiceImpl implements ShopService {
 	
 
 	@Override
-	public void addShop(ShopRequest request) throws ShopException {
+	public Shop addShop(ShopRequest request) throws ShopException {
 
 		ShopAddress shopAddress;
 		String shopName;
+		Shop shop = null;
 
 		if (request.getShopName() != null && !request.getShopName().isEmpty() && request.getShopAddress() != null && request.getShopAddress().getNumber()!=null && !request.getShopAddress().getNumber().isEmpty()
 				&& request.getShopAddress().getPostCode()!=null) {
@@ -64,7 +65,7 @@ public class ShopServiceImpl implements ShopService {
 				
 				if (location != null) {
 					logger.info("Successfully fetched shops latitude and longitude to add shop");
-					Shop shop = new Shop();
+					shop = new Shop();
 					shop.setShopAddress(shopAddress);
 					shop.setShopName(request.getShopName());
 					shop.setShopLongitude(location.getLng());
@@ -77,6 +78,7 @@ public class ShopServiceImpl implements ShopService {
 		} else {
 			throw new ShopException("Request Does not contain shop information");
 		}
+		return shop;
 	}
 
 	

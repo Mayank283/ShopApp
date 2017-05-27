@@ -22,9 +22,10 @@ public interface ShopService {
 	 /**
 	 * Method to set add the Shop into Repository with calculated Latitude and Longitude 
 	 * @param request the shoprequest from RetailManager
+	 * @return 
 	 * @throws ShopException Exception Exception thrown on wrong location/address of shop/customer
 	 */
-	public void addShop(ShopRequest request) throws ShopException;
+	public Shop addShop(ShopRequest request) throws ShopException;
 	 
 	
 	 /**

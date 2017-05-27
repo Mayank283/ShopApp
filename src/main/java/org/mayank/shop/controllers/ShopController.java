@@ -43,16 +43,16 @@ public class ShopController {
 	 * @return ResponseEntity Success on adding the shop to repository.
 	 * @throws ShopException Exception thrown on wrong location/address of shop/customer
 	 * */
-	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> addShop(@RequestBody ShopRequest request) throws ShopException{
+	@RequestMapping(value = "/repository", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Shop> addShop(@RequestBody ShopRequest request) throws ShopException{
 		
 		final String methodName = "addShop()";
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
         logger.info("Sending the Retail Manager to method: " + methodName);
 		
-        shopService.addShop(request);
+        Shop shop = shopService.addShop(request);
         
-        return new ResponseEntity<String>("Success",HttpStatus.OK);
+        return new ResponseEntity<Shop>(shop,HttpStatus.OK);
 	}
 	
 	
@@ -66,7 +66,7 @@ public class ShopController {
 	 * @throws ShopException Exception thrown on wrong location/address of shop/customer
 	 * @throws RepositoryException Exception thrown when No shops are present in Shop repository
 	 * */
-	@RequestMapping(value = "/nearest", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/nearby", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Shop> getNearestShop(@RequestParam("customerLongitude") BigDecimal customerLongitude,
 			@RequestParam("customerLatitude") BigDecimal customerLatitude) throws ShopException, RepositoryException{
 		
