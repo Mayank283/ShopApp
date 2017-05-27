@@ -61,8 +61,8 @@ public class ShopcontrollerTest {
 	private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
 			MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
-	private MediaType contentType2 = new MediaType(MediaType.TEXT_PLAIN.getType(), MediaType.TEXT_PLAIN.getSubtype(),
-			Charset.forName("utf8"));
+	/*private MediaType contentType2 = new MediaType(MediaType.TEXT_PLAIN.getType(), MediaType.TEXT_PLAIN.getSubtype(),
+			Charset.forName("utf8"));*/
 
 	/**
 	 * Set up for unit testing of controller
@@ -93,10 +93,10 @@ public class ShopcontrollerTest {
 	public void givenCorrectShopRequestResponseOK() throws Exception {
 
 		// Mocking shopService to test ShopController method
-		Mockito.doNothing().when(shopService).addShop(shopRequest);
+		Mockito.doReturn(shop).when(shopService).addShop(shopRequest);
 
-		this.mockMvc.perform(post("/shop/add").content(jsonStr).contentType(contentType)).andDo(print())
-				.andExpect(status().isOk()).andExpect(content().contentType(contentType2));
+		this.mockMvc.perform(post("/shop/repository").content(jsonStr).contentType(contentType)).andDo(print())
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class ShopcontrollerTest {
 		Mockito.doReturn(shop).when(shopService).getNearestShop(BigDecimal.valueOf(12.31456),
 				BigDecimal.valueOf(77.2564178));
 
-		this.mockMvc.perform(get("/shop/nearest")
+		this.mockMvc.perform(get("/shop/nearby")
 				.param("customerLongitude", "12.31456")
 				.param("customerLatitude","77.2564178"))
 				.andDo(print()).andExpect(status().isOk())
@@ -120,7 +120,7 @@ public class ShopcontrollerTest {
 		// Mocking shopService to test ShopController method
 		Mockito.doThrow(new ShopException("Latitude/Longitude is missing")).when(shopService).getNearestShop(BigDecimal.valueOf(12.31456),null);
 		
-		this.mockMvc.perform(get("/shop/nearest")
+		this.mockMvc.perform(get("/shop/nearby")
 				.param("customerLongitude", "12.31456")
 				.param("customerLatitude",""))
 				.andDo(print()).andExpect(status().isBadRequest())
